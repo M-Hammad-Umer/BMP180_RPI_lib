@@ -20,11 +20,10 @@ int main()
     
     while(1)
     {
-        BMP180_EPROM_DATA(fd );
-        uint16_t ut = BMP180_READ_UT(fd) ;
-        long up =BMP180_READ_UP(fd , 1);
-        printf("Temp = %d C\t\t", BMP180_CALC_TEMP(ut));
-        printf("Pressure = %d pa\n", (BMP180_CALC_PRESS(up ,1)));
+        BMP180_EPROM_DATA(fd );           //get callibrations from EEPROM 
+             
+        printf("Temp = %d C\t\t", BMP180_get_temp(fd));
+        printf("Pressure = %d pa\n", (BMP180_get_bmp(fd ,BMP180_OSS_STANDARD)));
     }      
 }
 

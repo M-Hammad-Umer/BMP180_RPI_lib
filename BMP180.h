@@ -37,11 +37,8 @@
 
 
 
+
+///////////////////////////User Functions DECELERATION////////////////////////////////
 void BMP180_EPROM_DATA(uint8_t fd );
-uint16_t BMP180_READ_UT(uint8_t fd );
-short BMP180_CALC_TEMP(unsigned long ut);
-uint32_t BMP180_READ_UP(uint8_t fd , unsigned char oss);
-uint16_t BMP180_READ_UT(uint8_t fd );
-uint32_t BMP180_CALC_PRESS(unsigned long up , unsigned char oss);
-
-
+uint8_t BMP180_get_temp(uint8_t fd);
+uint32_t BMP180_get_bmp(uint8_t fd , uint8_t oss);

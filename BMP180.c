@@ -20,7 +20,15 @@ long B5;
 
 
 
+///////////////////////////Private Funcions Decleration//////////////////////////////
+static uint16_t BMP180_READ_UT(uint8_t fd );
+static short BMP180_CALC_TEMP(unsigned long ut);
+static uint32_t BMP180_READ_UP(uint8_t fd , unsigned char oss);
+static uint16_t BMP180_READ_UT(uint8_t fd );
+static uint32_t BMP180_CALC_PRESS(unsigned long up , unsigned char oss);
 
+
+///////////////////////////Public Funcion Definition//////////////////////////////
 void BMP180_EPROM_DATA(uint8_t fd)
 {
 	
@@ -53,8 +61,22 @@ void BMP180_EPROM_DATA(uint8_t fd)
 }
 
 
+uint8_t BMP180_get_temp(uint8_t fd)
+{
+	uint16_t ut = BMP180_READ_UT(fd);
+	return (BMP180_CALC_TEMP(ut));                // uint is Degree Celcuis
+}
 
-uint16_t BMP180_READ_UT(uint8_t fd)
+
+uint32_t BMP180_get_bmp(uint8_t fd , uint8_t oss)
+{
+	uint32_t up = BMP180_READ_UP(fd ,oss);
+	return ( BMP180_CALC_PRESS(up , oss));
+}
+
+
+///////////////////////////Private Funcions DEFINITION//////////////////////////////
+static uint16_t BMP180_READ_UT(uint8_t fd)
 {
 	uint8_t outputMSB;
 	uint8_t outputLSB;
@@ -72,7 +94,7 @@ uint16_t BMP180_READ_UT(uint8_t fd)
 
 
 
-uint32_t BMP180_READ_UP(uint8_t fd , unsigned char oss)
+static uint32_t BMP180_READ_UP(uint8_t fd , unsigned char oss)
 {
 	uint8_t outputMSB;
 	uint8_t outputLSB;
@@ -106,10 +128,7 @@ uint32_t BMP180_READ_UP(uint8_t fd , unsigned char oss)
 
 
 
-
-
-
-uint32_t BMP180_CALC_PRESS(unsigned long up , unsigned char oss)
+static uint32_t BMP180_CALC_PRESS(unsigned long up , unsigned char oss)
 {
 	long pressure, x1, x2, x3, b3, b6;
 	unsigned long b4, b7;
@@ -145,11 +164,7 @@ uint32_t BMP180_CALC_PRESS(unsigned long up , unsigned char oss)
 
 
 
-
-
-
-
-short BMP180_CALC_TEMP(unsigned long ut )
+static short BMP180_CALC_TEMP(unsigned long ut )
 {
 	short temperature;
 	long x1, x2;
@@ -159,3 +174,5 @@ short BMP180_CALC_TEMP(unsigned long ut )
 	temperature = (B5+8) >> 4;
 	return (temperature*0.1);
 }
+
+
